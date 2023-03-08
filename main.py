@@ -39,8 +39,5 @@ plot.compare_history_v(trajectory_vector, result.x, range_flag = True)
 #plot.vis_history_phi(result.x, range_flag=True)
 #plot.vis_history_v(result.x, range_flag = True)
 
-print(len(cons))
-
-
 
 

@@ -74,6 +74,10 @@ def vis_path(trajectory_vector):
         circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='black')
         ax.add_patch(circle_obstacle)
     
+    #startとgoalを配置
+    ax.scatter([p.initial_x], [p.initial_y], marker='v', color='green', label='start')
+    ax.scatter([p.terminal_x], [p.terminal_y], marker='^', color='green', label='goal')
+    
     ax.set_xlabel(r'$x$[m]')
     ax.set_ylabel(r'$y$[m]')
     ax.set_xlim([p.x_min - p.margin, p.x_max + p.margin])
@@ -119,6 +123,10 @@ def compare_path(trajectory_vector1, trajectory_vector2):
         x_o, y_o, r_o = p.obstacle_list[k][0], p.obstacle_list[k][1], p.obstacle_list[k][2],
         circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='black')
         ax.add_patch(circle_obstacle)
+    
+    #startとgoalを配置
+    ax.scatter([p.initial_x], [p.initial_y], marker='v', color='green', label='start')
+    ax.scatter([p.terminal_x], [p.terminal_y], marker='^', color='green', label='goal')
     
     ax.set_xlabel(r'$x$[m]')
     ax.set_ylabel(r'$y$[m]')
