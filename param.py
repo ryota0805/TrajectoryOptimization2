@@ -4,21 +4,39 @@ import numpy as np
 class Parameter:
     N = 50                                                      #系列データの長さ
     M = 5                                                       #設計変数の種類の個数
-    WayPoint = np.array([[0, 0], [9, 5], [19, 5], [29, 0]])    #初期パス　[x, y]
-
+    
     #初期状態と終端状態
+    set_cons = {'initial_x'     :True,                          #境界条件をセットするかどうか
+                'terminal_x'    :True, 
+                'initial_y'     :True, 
+                'terminal_y'    :True, 
+                'initial_theta' :True, 
+                'terminal_theta':True, 
+                'initial_phi'   :True, 
+                'terminal_phi'  :True,
+                'initial_v'     :True, 
+                'terminal_v'    :True}
+    
     initial_x = 0                                               #x[m]
-    terminal_x = 29                                             #x[m]
+    terminal_x = 30                                             #x[m]
+    
     initial_y = 0                                               #y[m]
-    terminal_y = 0                                              #y[m] 
+    terminal_y = 0                                              #y[m]
+
     initial_theta = 0                                           #theta[rad]
     terminal_theta = 0                                          #theta[rad]
+    
     initial_phi = 0                                             #phi[rad]
     terminal_phi = 0                                            #phi[rad]
+    
     initial_v = 0                                               #v[m/s]
     terminal_v = 0                                              #v[m/s]
     
-    
+    WayPoint = np.array([[initial_x, initial_y],                #初期パス　[x, y] 
+                         [10, 5], 
+                         [20, 5], 
+                         [terminal_x, terminal_y]])     
+
     #変数の範囲
     x_min = -3                                                  #x[m]
     x_max = 32                                                  #x[m]
@@ -40,7 +58,7 @@ class Parameter:
     #　x　: 円の中心座標
     #　y　: 円の中心座標
     #　r　: 半径 
-    obstacle_list = [(7, 1, 2), (14, 1, 2), (21, 1, 2)]                   #障害物のパラメータが格納されたリスト
+    obstacle_list = [(15, 0, 3)]                   #障害物のパラメータが格納されたリスト
     
     
     #wallのパラメータ

@@ -31,6 +31,8 @@ def vis_env():
         circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='black')
         ax.add_patch(circle_obstacle)
     
+    ax.set_xlabel(r'$x$[m]')
+    ax.set_ylabel(r'$y$[m]')
     ax.set_xlim([p.x_min - p.margin, p.x_max + p.margin])
     ax.set_ylim([p.y_min - p.margin, p.y_max + p.margin])
     
@@ -72,6 +74,8 @@ def vis_path(trajectory_vector):
         circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='black')
         ax.add_patch(circle_obstacle)
     
+    ax.set_xlabel(r'$x$[m]')
+    ax.set_ylabel(r'$y$[m]')
     ax.set_xlim([p.x_min - p.margin, p.x_max + p.margin])
     ax.set_ylim([p.y_min - p.margin, p.y_max + p.margin])
     
@@ -116,6 +120,8 @@ def compare_path(trajectory_vector1, trajectory_vector2):
         circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='black')
         ax.add_patch(circle_obstacle)
     
+    ax.set_xlabel(r'$x$[m]')
+    ax.set_ylabel(r'$y$[m]')
     ax.set_xlim([p.x_min - p.margin, p.x_max + p.margin])
     ax.set_ylim([p.y_min - p.margin, p.y_max + p.margin])
     
@@ -135,10 +141,10 @@ def vis_history_theta(trajectory_vector, range_flag = False):
     
     theta = trajectory_matrix[2]
     
-    ax.plot(theta, color='blue', label='theta[rad]')
-    ax.set_xlabel('t')
-    ax.set_ylabel('theta[rad]')
-    ax.legend(loc='best')
+    ax.plot(theta, color='blue', label=r'$\theta$[rad]')
+    ax.set_xlabel(r'$t$[s]')
+    ax.set_ylabel(r'$\theta$[rad]')
+    ax.legend(loc='upper right')
     
     #thetaの範囲を追加
     if range_flag:
@@ -151,7 +157,37 @@ def vis_history_theta(trajectory_vector, range_flag = False):
     
     plt.show()
     
+
+########
+#姿勢の比較
+########
+def compare_history_theta(trajectory_vector1, trajectory_vector2, range_flag = False):
+    fig, ax = plt.subplots()
     
+    trajectory_matrix1 = util.vector_to_matrix(trajectory_vector1)
+    theta1 = trajectory_matrix1[2]
+    ax.plot(theta1,  color='green',  label='Initial')
+    
+    trajectory_matrix2 = util.vector_to_matrix(trajectory_vector2)
+    theta2 = trajectory_matrix2[2]
+    ax.plot(theta2,  color='blue',  label='Optimized')
+    
+    ax.set_xlabel(r'$t$[s]')
+    ax.set_ylabel(r'$\theta$[rad]')
+    ax.legend(loc='upper right')
+    
+    #thetaの範囲を追加
+    if range_flag:
+        theta_max_list = [p.theta_max for i in range(p.N)]
+        theta_min_list = [p.theta_min for i in range(p.N)]
+        ax.plot(theta_max_list, color='red', linestyle='-.')
+        ax.plot(theta_min_list, color='red', linestyle='-.')
+    else:
+        pass
+    
+    plt.show()
+    
+ 
 ########
 #ステアリング角phiのグラフを生成
 ########
@@ -162,10 +198,40 @@ def vis_history_phi(trajectory_vector, range_flag = False):
     
     phi = trajectory_matrix[3]
     
-    ax.plot(phi, color='blue', label='phi[rad]')
-    ax.set_xlabel('t')
-    ax.set_ylabel('phi[rad]')
-    ax.legend(loc='best')
+    ax.plot(phi, color='blue', label=r'$\phi$[rad]')
+    ax.set_xlabel(r'$t$[s]')
+    ax.set_ylabel(r'$\phi$[rad]')
+    ax.legend(loc='upper right')
+    
+    #thetaの範囲を追加
+    if range_flag:
+        phi_max_list = [p.phi_max for i in range(p.N)]
+        phi_min_list = [p.phi_min for i in range(p.N)]
+        ax.plot(phi_max_list, color='red', linestyle='-.')
+        ax.plot(phi_min_list, color='red', linestyle='-.')
+    else:
+        pass
+    
+    plt.show()
+    
+
+########
+#ステアリング角の比較
+########
+def compare_history_phi(trajectory_vector1, trajectory_vector2, range_flag = False):
+    fig, ax = plt.subplots()
+    
+    trajectory_matrix1 = util.vector_to_matrix(trajectory_vector1)
+    phi1 = trajectory_matrix1[3]
+    ax.plot(phi1,  color='green',  label='Initial')
+    
+    trajectory_matrix2 = util.vector_to_matrix(trajectory_vector2)
+    phi2 = trajectory_matrix2[3]
+    ax.plot(phi2,  color='blue',  label='Optimized')
+    
+    ax.set_xlabel(r'$t$[s]')
+    ax.set_ylabel(r'$\phi$[rad]')
+    ax.legend(loc='upper right')
     
     #thetaの範囲を追加
     if range_flag:
@@ -189,10 +255,40 @@ def vis_history_v(trajectory_vector, range_flag = False):
     
     v = trajectory_matrix[4]
     
-    ax.plot(v, color='blue', label='v[m/s]')
-    ax.set_xlabel('t')
-    ax.set_ylabel('v[m/s]')
-    ax.legend(loc='best')
+    ax.plot(v, color='blue', label=r'$v$[m/s]')
+    ax.set_xlabel(r'$t$[s]')
+    ax.set_ylabel(r'$v$[m/s]')
+    ax.legend(loc='upper right')
+    
+    #thetaの範囲を追加
+    if range_flag:
+        v_max_list = [p.v_max for i in range(p.N)]
+        v_min_list = [p.v_min for i in range(p.N)]
+        ax.plot(v_max_list, color='red', linestyle='-.')
+        ax.plot(v_min_list, color='red', linestyle='-.')
+    else:
+        pass
+    
+    plt.show()
+    
+
+########
+#速さの比較
+########
+def compare_history_v(trajectory_vector1, trajectory_vector2, range_flag = False):
+    fig, ax = plt.subplots()
+    
+    trajectory_matrix1 = util.vector_to_matrix(trajectory_vector1)
+    v1 = trajectory_matrix1[4]
+    ax.plot(v1,  color='green',  label='Initial')
+    
+    trajectory_matrix2 = util.vector_to_matrix(trajectory_vector2)
+    v2 = trajectory_matrix2[4]
+    ax.plot(v2,  color='blue',  label='Optimized')
+    
+    ax.set_xlabel(r'$t$[s]')
+    ax.set_ylabel(r'$v$[m/s]')
+    ax.legend(loc='upper right')
     
     #thetaの範囲を追加
     if range_flag:
