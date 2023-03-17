@@ -15,7 +15,7 @@ trajectory_matrix = np.array([x, y, theta, phi, v])
 trajectory_vector = util.matrix_to_vector(trajectory_matrix)
 
 #目的関数の設定
-func = objective_function.objective_function
+func = objective_function.objective_function2
 
 #制約条件の設定
 cons = constraints.generate_constraints()

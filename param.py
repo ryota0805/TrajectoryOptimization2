@@ -2,7 +2,7 @@
 import numpy as np
 
 class Parameter:
-    N = 50                                                    #系列データの長さ
+    N = 30                                                   #系列データの長さ
     M = 5                                                       #設計変数の種類の個数
     
     #初期状態と終端状態
@@ -23,7 +23,7 @@ class Parameter:
     initial_y = 0                                               #y[m]
     terminal_y = 0                                              #y[m]
 
-    initial_theta = 3 * np.pi/4                                          #theta[rad]
+    initial_theta = 0                                          #theta[rad]
     terminal_theta = 0                                          #theta[rad]
     
     initial_phi = 0                                             #phi[rad]
@@ -64,3 +64,6 @@ class Parameter:
     #wallのパラメータ
     wall_thick = 1                                #wallの厚さ
     margin = 2
+    
+    #robot size
+    robot_size = 0.5

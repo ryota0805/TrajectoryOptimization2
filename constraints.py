@@ -11,7 +11,7 @@ def generate_constraints():
     cons = ()
     for k in range(len(p.obstacle_list)):
         for i in range(p.N):
-            cons = cons + ({'type':'ineq', 'fun':lambda x, i = i, k = k: ((x[i] - p.obstacle_list[k][0]) ** 2 + (x[i + p.N] - p.obstacle_list[k][1]) ** 2) - p.obstacle_list[k][2] ** 2},)
+            cons = cons + ({'type':'ineq', 'fun':lambda x, i = i, k = k: ((x[i] - p.obstacle_list[k][0]) ** 2 + (x[i + p.N] - p.obstacle_list[k][1]) ** 2) - (p.obstacle_list[k][2] + p.robot_size) ** 2},)
 
     #次にモデルの等式制約(3×(N-1)個)
     #x
