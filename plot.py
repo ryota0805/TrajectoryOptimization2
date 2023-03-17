@@ -26,10 +26,15 @@ def vis_env():
     ax.add_patch(upside_wall)
     
     #障害物を配置
-    for k in range(p.obstacle_list):
+    for k in range(len(p.obstacle_list)):
         x_o, y_o, r_o = p.obstacle_list[k][0], p.obstacle_list[k][1], p.obstacle_list[k][2],
-        circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='black')
+        circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='gray')
         ax.add_patch(circle_obstacle)
+    
+    #startとgoalを配置
+    ax.scatter([p.initial_x], [p.initial_y], marker='v', color='green', label='start')
+    ax.scatter([p.terminal_x], [p.terminal_y], marker='^', color='green', label='goal')
+    
     
     ax.set_xlabel(r'$x$[m]')
     ax.set_ylabel(r'$y$[m]')
@@ -71,7 +76,7 @@ def vis_path(trajectory_vector):
     #障害物を配置
     for k in range(len(p.obstacle_list)):
         x_o, y_o, r_o = p.obstacle_list[k][0], p.obstacle_list[k][1], p.obstacle_list[k][2],
-        circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='black')
+        circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='gray')
         ax.add_patch(circle_obstacle)
     
     #startとgoalを配置
@@ -84,7 +89,7 @@ def vis_path(trajectory_vector):
     ax.set_ylim([p.y_min - p.margin, p.y_max + p.margin])
     
     ax.set_aspect('equal')
-    
+    ax.legend(loc="best")
     plt.show()
     
     return None
@@ -121,7 +126,7 @@ def compare_path(trajectory_vector1, trajectory_vector2):
     #障害物を配置
     for k in range(len(p.obstacle_list)):
         x_o, y_o, r_o = p.obstacle_list[k][0], p.obstacle_list[k][1], p.obstacle_list[k][2],
-        circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='black')
+        circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='gray')
         ax.add_patch(circle_obstacle)
     
     #startとgoalを配置
@@ -158,8 +163,8 @@ def vis_history_theta(trajectory_vector, range_flag = False):
     if range_flag:
         theta_max_list = [p.theta_max for i in range(p.N)]
         theta_min_list = [p.theta_min for i in range(p.N)]
-        ax.plot(theta_max_list, color='red', linestyle='-.')
-        ax.plot(theta_min_list, color='red', linestyle='-.')
+        ax.plot(theta_max_list, color='green', linestyle='-.')
+        ax.plot(theta_min_list, color='green', linestyle='-.')
     else:
         pass
     
@@ -174,7 +179,7 @@ def compare_history_theta(trajectory_vector1, trajectory_vector2, range_flag = F
     
     trajectory_matrix1 = util.vector_to_matrix(trajectory_vector1)
     theta1 = trajectory_matrix1[2]
-    ax.plot(theta1,  color='green',  label='Initial')
+    ax.plot(theta1,  color='red',  label='Initial')
     
     trajectory_matrix2 = util.vector_to_matrix(trajectory_vector2)
     theta2 = trajectory_matrix2[2]
@@ -188,8 +193,8 @@ def compare_history_theta(trajectory_vector1, trajectory_vector2, range_flag = F
     if range_flag:
         theta_max_list = [p.theta_max for i in range(p.N)]
         theta_min_list = [p.theta_min for i in range(p.N)]
-        ax.plot(theta_max_list, color='red', linestyle='-.')
-        ax.plot(theta_min_list, color='red', linestyle='-.')
+        ax.plot(theta_max_list, color='green', linestyle='-.')
+        ax.plot(theta_min_list, color='green', linestyle='-.')
     else:
         pass
     
@@ -215,8 +220,8 @@ def vis_history_phi(trajectory_vector, range_flag = False):
     if range_flag:
         phi_max_list = [p.phi_max for i in range(p.N)]
         phi_min_list = [p.phi_min for i in range(p.N)]
-        ax.plot(phi_max_list, color='red', linestyle='-.')
-        ax.plot(phi_min_list, color='red', linestyle='-.')
+        ax.plot(phi_max_list, color='green', linestyle='-.')
+        ax.plot(phi_min_list, color='green', linestyle='-.')
     else:
         pass
     
@@ -231,7 +236,7 @@ def compare_history_phi(trajectory_vector1, trajectory_vector2, range_flag = Fal
     
     trajectory_matrix1 = util.vector_to_matrix(trajectory_vector1)
     phi1 = trajectory_matrix1[3]
-    ax.plot(phi1,  color='green',  label='Initial')
+    ax.plot(phi1,  color='red',  label='Initial')
     
     trajectory_matrix2 = util.vector_to_matrix(trajectory_vector2)
     phi2 = trajectory_matrix2[3]
@@ -245,8 +250,8 @@ def compare_history_phi(trajectory_vector1, trajectory_vector2, range_flag = Fal
     if range_flag:
         phi_max_list = [p.phi_max for i in range(p.N)]
         phi_min_list = [p.phi_min for i in range(p.N)]
-        ax.plot(phi_max_list, color='red', linestyle='-.')
-        ax.plot(phi_min_list, color='red', linestyle='-.')
+        ax.plot(phi_max_list, color='green', linestyle='-.')
+        ax.plot(phi_min_list, color='green', linestyle='-.')
     else:
         pass
     
@@ -272,8 +277,8 @@ def vis_history_v(trajectory_vector, range_flag = False):
     if range_flag:
         v_max_list = [p.v_max for i in range(p.N)]
         v_min_list = [p.v_min for i in range(p.N)]
-        ax.plot(v_max_list, color='red', linestyle='-.')
-        ax.plot(v_min_list, color='red', linestyle='-.')
+        ax.plot(v_max_list, color='green', linestyle='-.')
+        ax.plot(v_min_list, color='green', linestyle='-.')
     else:
         pass
     
@@ -288,7 +293,7 @@ def compare_history_v(trajectory_vector1, trajectory_vector2, range_flag = False
     
     trajectory_matrix1 = util.vector_to_matrix(trajectory_vector1)
     v1 = trajectory_matrix1[4]
-    ax.plot(v1,  color='green',  label='Initial')
+    ax.plot(v1,  color='red',  label='Initial')
     
     trajectory_matrix2 = util.vector_to_matrix(trajectory_vector2)
     v2 = trajectory_matrix2[4]
@@ -302,9 +307,59 @@ def compare_history_v(trajectory_vector1, trajectory_vector2, range_flag = False
     if range_flag:
         v_max_list = [p.v_max for i in range(p.N)]
         v_min_list = [p.v_min for i in range(p.N)]
-        ax.plot(v_max_list, color='red', linestyle='-.')
-        ax.plot(v_min_list, color='red', linestyle='-.')
+        ax.plot(v_max_list, color='green', linestyle='-.')
+        ax.plot(v_min_list, color='green', linestyle='-.')
     else:
         pass
     
     plt.show()
+    
+########
+#2本のpathを比較する関数(障害物が正方形の場合)
+########
+def compare_path_rec(trajectory_vector1, trajectory_vector2):
+    fig, ax = plt.subplots()
+    
+    #2本のpathを配置
+    trajectory_matrix1 = util.vector_to_matrix(trajectory_vector1)
+    x1, y1 = trajectory_matrix1[0], trajectory_matrix1[1]
+    ax.scatter(x1, y1, marker='x', color='red', s=5, label='Initial path')
+    
+    trajectory_matrix2 = util.vector_to_matrix(trajectory_vector2)
+    x2, y2 = trajectory_matrix2[0], trajectory_matrix2[1]
+    ax.scatter(x2, y2, marker='x', color='blue', s=5, label='Optimized path')
+    
+    #wallを配置
+    #左側
+    leftside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_min), p.wall_thick, p.y_max - p.y_min, linewidth=1, edgecolor='black', facecolor='black')
+    ax.add_patch(leftside_wall)
+    #右側
+    rightside_wall = patches.Rectangle((p.x_max, p.y_min), p.wall_thick, p.y_max - p.y_min, linewidth=1, edgecolor='black', facecolor='black')
+    ax.add_patch(rightside_wall)
+    #下側
+    downside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_min - p.wall_thick), 2 * p.wall_thick + p.x_max - p.x_min, p.wall_thick, linewidth=1, edgecolor='black', facecolor='black')
+    ax.add_patch(downside_wall)
+    #上側
+    upside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_max), 2 * p.wall_thick + p.x_max - p.x_min, p.wall_thick, linewidth=1, edgecolor='black', facecolor='black')
+    ax.add_patch(upside_wall)
+    
+    #障害物を配置
+    for k in range(len(p.obstacle_list)):
+        x_o, y_o, r_o = p.obstacle_list[k][0], p.obstacle_list[k][1], p.obstacle_list[k][2],
+        circle_obstacle = patches.Rectangle((x_o-r_o+0.25, y_o-r_o+0.25), 2*r_o-0.5, 2*r_o-0.5, edgecolor='black', facecolor='gray')
+        ax.add_patch(circle_obstacle)
+    
+    #startとgoalを配置
+    ax.scatter([p.initial_x], [p.initial_y], marker='v', color='green', label='start')
+    ax.scatter([p.terminal_x], [p.terminal_y], marker='^', color='green', label='goal')
+    
+    ax.set_xlabel(r'$x$[m]')
+    ax.set_ylabel(r'$y$[m]')
+    ax.set_xlim([p.x_min - p.margin, p.x_max + p.margin])
+    ax.set_ylim([p.y_min - p.margin, p.y_max + p.margin])
+    
+    ax.set_aspect('equal')
+    #ax.legend(loc="best")
+    plt.show()
+    
+    return None

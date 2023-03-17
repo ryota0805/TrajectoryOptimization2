@@ -2,7 +2,7 @@
 import numpy as np
 
 class Parameter:
-    N = 50                                                      #系列データの長さ
+    N = 50                                                    #系列データの長さ
     M = 5                                                       #設計変数の種類の個数
     
     #初期状態と終端状態
@@ -17,13 +17,13 @@ class Parameter:
                 'initial_v'     :True, 
                 'terminal_v'    :True}
     
-    initial_x = 0                                               #x[m]
-    terminal_x = 30                                             #x[m]
+    initial_x = 0                                              #x[m]
+    terminal_x = 30                                           #x[m]
     
     initial_y = 0                                               #y[m]
     terminal_y = 0                                              #y[m]
 
-    initial_theta = 0                                           #theta[rad]
+    initial_theta = 3 * np.pi/4                                          #theta[rad]
     terminal_theta = 0                                          #theta[rad]
     
     initial_phi = 0                                             #phi[rad]
@@ -34,12 +34,12 @@ class Parameter:
     
     WayPoint = np.array([[initial_x, initial_y],                #初期パス　[x, y] 
                          [10, 5], 
-                         [20, 5], 
+                         [20, -5], 
                          [terminal_x, terminal_y]])     
 
     #変数の範囲
     x_min = -3                                                  #x[m]
-    x_max = 32                                                  #x[m]
+    x_max = 33                                                  #x[m]
     y_min = -10                                                 #y[m]
     y_max = 10                                                  #y[m]
     theta_min = -np.pi                                          #theta[rad]
@@ -58,7 +58,7 @@ class Parameter:
     #　x　: 円の中心座標
     #　y　: 円の中心座標
     #　r　: 半径 
-    obstacle_list = [(15, 0, 3)]                   #障害物のパラメータが格納されたリスト
+    obstacle_list = [(10, -1, 3), (20, 1, 3)]                   #障害物のパラメータが格納されたリスト
     
     
     #wallのパラメータ

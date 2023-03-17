@@ -31,13 +31,15 @@ result = optimize.minimize(func, trajectory_vector, method='SLSQP', constraints=
 
 #最適化結果の表示
 print(result)
+plot.vis_env()
+plot.vis_path(trajectory_vector)
 plot.compare_path(trajectory_vector, result.x)
 plot.compare_history_theta(trajectory_vector, result.x, range_flag = True)
 plot.compare_history_phi(trajectory_vector, result.x, range_flag = True)
 plot.compare_history_v(trajectory_vector, result.x, range_flag = True)
-#plot.vis_history_theta(result.x, range_flag=True)
-#plot.vis_history_phi(result.x, range_flag=True)
-#plot.vis_history_v(result.x, range_flag = True)
-
+plot.vis_history_theta(result.x, range_flag=True)
+plot.vis_history_phi(result.x, range_flag=True)
+plot.vis_history_v(result.x, range_flag = True)
+plot.compare_path_rec(trajectory_vector, result.x)
 
 
