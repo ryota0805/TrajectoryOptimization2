@@ -10,7 +10,7 @@ import plot
 
 #WayPointから設計変数の初期値を計算する
 cubicX, cubicY = GenerateInitialPath.cubic_spline()
-x, y, theta, phi, v = GenerateInitialPath.gengerate_initialpath(cubicX, cubicY)
+x, y, theta, phi, v = GenerateInitialPath.generate_initialpath(cubicX, cubicY)
 trajectory_matrix = np.array([x, y, theta, phi, v])
 trajectory_vector = util.matrix_to_vector(trajectory_matrix)
 

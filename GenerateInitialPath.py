@@ -23,7 +23,7 @@ def cubic_spline():
     return cubicX, cubicY
 
 #x, yからΘとφを生成する
-def gengerate_initialpath(cubicX, cubicY):
+def generate_initialpath(cubicX, cubicY):
     #nd.arrayに変換
     x = np.array(cubicX)
     y = np.array(cubicY)
