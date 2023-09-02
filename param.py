@@ -1,8 +1,10 @@
 #パラメータ管理class
 import numpy as np
+import env
 
 class Parameter:
-    N = 30                                                   #系列データの長さ
+    env_data = env.Env()
+    N = 50                                                     #系列データの長さ
     M = 5                                                       #設計変数の種類の個数
     
     #初期状態と終端状態
@@ -17,10 +19,10 @@ class Parameter:
                 'initial_v'     :True, 
                 'terminal_v'    :True}
     
-    initial_x = 0                                              #x[m]
+    initial_x = 0                                             #x[m]
     terminal_x = 30                                           #x[m]
     
-    initial_y = 0                                               #y[m]
+    initial_y = 0                                              #y[m]
     terminal_y = 0                                              #y[m]
 
     initial_theta = 0                                          #theta[rad]
@@ -31,6 +33,18 @@ class Parameter:
     
     initial_v = 0                                               #v[m/s]
     terminal_v = 0                                              #v[m/s]
+    
+    #変数の範囲
+    x_min = env_data.x_range[0]                                                  #x[m]
+    x_max = env_data.x_range[1]                                                  #x[m]
+    y_min = env_data.y_range[0]                                                 #y[m]
+    y_max = env_data.y_range[1]                                                  #y[m]
+    theta_min = -np.pi                                          #theta[rad]
+    theta_max = np.pi                                           #tehta[rad]
+    phi_min = -np.pi/6                                          #phi[rad]
+    phi_max = np.pi/6                                           #phi[rad]
+    v_min = 0                                                   #v[m/s]
+    v_max = 2                                                   #v[m/s]
     
     WayPoint = np.array([[initial_x, initial_y],                #初期パス　[x, y] 
                          [10, 5], 
@@ -47,7 +61,7 @@ class Parameter:
     phi_min = -np.pi/4                                          #phi[rad]
     phi_max = np.pi/4                                           #phi[rad]
     v_min = 0                                                   #v[m/s]
-    v_max = 3                                                   #v[m/s]
+    v_max = 2                                                   #v[m/s]
 
 
     dt = 1                                                      #刻み幅[s]                                             

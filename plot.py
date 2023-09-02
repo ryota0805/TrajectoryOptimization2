@@ -4,6 +4,16 @@ from param import Parameter as p
 import util
 import numpy as np
 import GenerateInitialPath
+import matplotlib.cm as cm
+import objective_function
+
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+from param import Parameter as p
+import util
+import numpy as np
+import env
+
 
 ########
 #壁と障害物の配置し表示する関数
@@ -11,30 +21,32 @@ import GenerateInitialPath
 def vis_env():
     fig, ax = plt.subplots()
     
+    env_data = env.Env()
+    wall_list = env_data.obs_boundary
+    obs_rectangle = env_data.obs_rectangle
+    obs_circle = env_data.obs_circle
+    
     #wallを配置
-    #左側
-    leftside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_min), p.wall_thick, p.y_max - p.y_min, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(leftside_wall)
-    #右側
-    rightside_wall = patches.Rectangle((p.x_max, p.y_min), p.wall_thick, p.y_max - p.y_min, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(rightside_wall)
-    #下側
-    downside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_min - p.wall_thick), 2 * p.wall_thick + p.x_max - p.x_min, p.wall_thick, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(downside_wall)
-    #上側
-    upside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_max), 2 * p.wall_thick + p.x_max - p.x_min, p.wall_thick, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(upside_wall)
+    for k in range(len(wall_list)):
+        wall = patches.Rectangle((wall_list[k][0], wall_list[k][1]), wall_list[k][2], wall_list[k][3], linewidth=1, edgecolor='black', facecolor='black')
+        ax.add_patch(wall)
     
     #障害物を配置
-    for k in range(len(p.obstacle_list)):
-        x_o, y_o, r_o = p.obstacle_list[k][0], p.obstacle_list[k][1], p.obstacle_list[k][2],
+    for k in range(len(obs_rectangle)):
+        x0, y0, w, h = obs_rectangle[k][0], obs_rectangle[k][1], obs_rectangle[k][2], obs_rectangle[k][3]
+        rectangle_obstacle = patches.Rectangle((x0, y0), w, h, linewidth=1, edgecolor='black', facecolor='gray')
+        ax.add_patch(rectangle_obstacle)
+        
+    for k in range(len(obs_circle)):
+        x_o, y_o, r_o = obs_circle[k][0], obs_circle[k][1], obs_circle[k][2],
         circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='gray')
         ax.add_patch(circle_obstacle)
     
+    """
     #startとgoalを配置
     ax.scatter([p.initial_x], [p.initial_y], marker='v', color='green', label='start')
     ax.scatter([p.terminal_x], [p.terminal_y], marker='^', color='green', label='goal')
-    
+    """
     
     ax.set_xlabel(r'$x$[m]')
     ax.set_ylabel(r'$y$[m]')
@@ -59,29 +71,30 @@ def vis_path(trajectory_vector):
     
     ax.scatter(x, y, marker='x', color='red', s=5)
     
+    env_data = env.Env()
+    wall_list = env_data.obs_boundary
+    obs_rectangle = env_data.obs_rectangle
+    obs_circle = env_data.obs_circle
+    
     #wallを配置
-    #左側
-    leftside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_min), p.wall_thick, p.y_max - p.y_min, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(leftside_wall)
-    #右側
-    rightside_wall = patches.Rectangle((p.x_max, p.y_min), p.wall_thick, p.y_max - p.y_min, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(rightside_wall)
-    #下側
-    downside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_min - p.wall_thick), 2 * p.wall_thick + p.x_max - p.x_min, p.wall_thick, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(downside_wall)
-    #上側
-    upside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_max), 2 * p.wall_thick + p.x_max - p.x_min, p.wall_thick, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(upside_wall)
+    for k in range(len(wall_list)):
+        wall = patches.Rectangle((wall_list[k][0], wall_list[k][1]), wall_list[k][2], wall_list[k][3], linewidth=1, edgecolor='black', facecolor='black')
+        ax.add_patch(wall)
     
     #障害物を配置
-    for k in range(len(p.obstacle_list)):
-        x_o, y_o, r_o = p.obstacle_list[k][0], p.obstacle_list[k][1], p.obstacle_list[k][2],
+    for k in range(len(obs_rectangle)):
+        x0, y0, w, h = obs_rectangle[k][0], obs_rectangle[k][1], obs_rectangle[k][2], obs_rectangle[k][3]
+        rectangle_obstacle = patches.Rectangle((x0, y0), w, h, linewidth=1, edgecolor='black', facecolor='gray')
+        ax.add_patch(rectangle_obstacle)
+        
+    for k in range(len(obs_circle)):
+        x_o, y_o, r_o = obs_circle[k][0], obs_circle[k][1], obs_circle[k][2],
         circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='gray')
         ax.add_patch(circle_obstacle)
     
     #startとgoalを配置
-    ax.scatter([p.initial_x], [p.initial_y], marker='v', color='green', label='start')
-    ax.scatter([p.terminal_x], [p.terminal_y], marker='^', color='green', label='goal')
+    ax.scatter([x[0]], [y[0]], marker='v', color='green', label='start')
+    ax.scatter([x[-1]], [y[-1]], marker='^', color='green', label='goal')
     
     ax.set_xlabel(r'$x$[m]')
     ax.set_ylabel(r'$y$[m]')
@@ -109,29 +122,30 @@ def compare_path(trajectory_vector1, trajectory_vector2):
     x2, y2 = trajectory_matrix2[0], trajectory_matrix2[1]
     ax.scatter(x2, y2, marker='x', color='blue', s=5, label='Optimized path')
     
+    env_data = env.Env()
+    wall_list = env_data.obs_boundary
+    obs_rectangle = env_data.obs_rectangle
+    obs_circle = env_data.obs_circle
+    
     #wallを配置
-    #左側
-    leftside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_min), p.wall_thick, p.y_max - p.y_min, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(leftside_wall)
-    #右側
-    rightside_wall = patches.Rectangle((p.x_max, p.y_min), p.wall_thick, p.y_max - p.y_min, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(rightside_wall)
-    #下側
-    downside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_min - p.wall_thick), 2 * p.wall_thick + p.x_max - p.x_min, p.wall_thick, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(downside_wall)
-    #上側
-    upside_wall = patches.Rectangle((p.x_min - p.wall_thick, p.y_max), 2 * p.wall_thick + p.x_max - p.x_min, p.wall_thick, linewidth=1, edgecolor='black', facecolor='black')
-    ax.add_patch(upside_wall)
+    for k in range(len(wall_list)):
+        wall = patches.Rectangle((wall_list[k][0], wall_list[k][1]), wall_list[k][2], wall_list[k][3], linewidth=1, edgecolor='black', facecolor='black')
+        ax.add_patch(wall)
     
     #障害物を配置
-    for k in range(len(p.obstacle_list)):
-        x_o, y_o, r_o = p.obstacle_list[k][0], p.obstacle_list[k][1], p.obstacle_list[k][2],
+    for k in range(len(obs_rectangle)):
+        x0, y0, w, h = obs_rectangle[k][0], obs_rectangle[k][1], obs_rectangle[k][2], obs_rectangle[k][3]
+        rectangle_obstacle = patches.Rectangle((x0, y0), w, h, linewidth=1, edgecolor='black', facecolor='gray')
+        ax.add_patch(rectangle_obstacle)
+        
+    for k in range(len(obs_circle)):
+        x_o, y_o, r_o = obs_circle[k][0], obs_circle[k][1], obs_circle[k][2],
         circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='gray')
         ax.add_patch(circle_obstacle)
     
     #startとgoalを配置
-    ax.scatter([p.initial_x], [p.initial_y], marker='v', color='green', label='start')
-    ax.scatter([p.terminal_x], [p.terminal_y], marker='^', color='green', label='goal')
+    ax.scatter([x1[0]], [y1[0]], marker='v', color='green', label='start')
+    ax.scatter([x1[-1]], [y1[-1]], marker='^', color='green', label='goal')
     
     ax.set_xlabel(r'$x$[m]')
     ax.set_ylabel(r'$y$[m]')
@@ -313,21 +327,19 @@ def compare_history_v(trajectory_vector1, trajectory_vector2, range_flag = False
         pass
     
     plt.show()
-    
-########
-#2本のpathを比較する関数(障害物が正方形の場合)
-########
-def compare_path_rec(trajectory_vector1, trajectory_vector2):
+
+#iteratoinごとの経路を表示する
+def path_by_iteration(x_list):
     fig, ax = plt.subplots()
-    
-    #2本のpathを配置
-    trajectory_matrix1 = util.vector_to_matrix(trajectory_vector1)
-    x1, y1 = trajectory_matrix1[0], trajectory_matrix1[1]
-    ax.scatter(x1, y1, marker='x', color='red', s=5, label='Initial path')
-    
-    trajectory_matrix2 = util.vector_to_matrix(trajectory_vector2)
-    x2, y2 = trajectory_matrix2[0], trajectory_matrix2[1]
-    ax.scatter(x2, y2, marker='x', color='blue', s=5, label='Optimized path')
+
+    for i in range(np.shape(x_list)[0]):
+        x = x_list[i]
+        #vectorをmatrixに変換
+        trajectory_matrix = util.vector_to_matrix(x)
+        x, y = trajectory_matrix[0], trajectory_matrix[1]
+        
+        #change color by path
+        ax.scatter(x, y, marker='x', color=cm.Reds(i/np.shape(x_list)[0]), s=5)
     
     #wallを配置
     #左側
@@ -346,7 +358,7 @@ def compare_path_rec(trajectory_vector1, trajectory_vector2):
     #障害物を配置
     for k in range(len(p.obstacle_list)):
         x_o, y_o, r_o = p.obstacle_list[k][0], p.obstacle_list[k][1], p.obstacle_list[k][2],
-        circle_obstacle = patches.Rectangle((x_o-r_o+0.25, y_o-r_o+0.25), 2*r_o-0.5, 2*r_o-0.5, edgecolor='black', facecolor='gray')
+        circle_obstacle = patches.Circle((x_o, y_o), radius=r_o, edgecolor='black', facecolor='gray')
         ax.add_patch(circle_obstacle)
     
     #startとgoalを配置
@@ -359,7 +371,43 @@ def compare_path_rec(trajectory_vector1, trajectory_vector2):
     ax.set_ylim([p.y_min - p.margin, p.y_max + p.margin])
     
     ax.set_aspect('equal')
-    #ax.legend(loc="best")
+    ax.legend(loc="best")
     plt.show()
     
     return None
+
+
+def function_by_iteration(x_list):
+    func_list = []
+    for i in range(np.shape(x_list)[0]):
+        func_value = objective_function.objective_function(x_list[i])
+        func_list.append(func_value)
+    plt.plot(func_list)
+    plt.xlabel(r'$Iteration$')
+    plt.ylabel(r'$Objective Function$')
+    plt.show()
+    
+    
+#各waypointのconstraintのvalueを表示
+def vis_constraint_values(constraint_list):
+    for i in range(p.N):
+        const1 = constraint_list[0][i]
+        const2 = constraint_list[1][i]
+        plt.plot(const1, label='obstacle1')
+        plt.plot(const2, label='obstacle2')
+        plt.xlabel(r'$Iteration$')
+        plt.ylabel(r'$Value$')
+        plt.title("Way Point {}".format(i + 1))
+        plt.legend()
+        plt.savefig("constraint_fig/" + "{}.png".format(i + 1))
+        plt.clf()
+        
+#constraint_numberの履歴
+def vis_constraint_number(constraint_number_list):
+    plt.plot(constraint_number_list)
+    plt.xlabel(r'$Iteration$')
+    plt.ylabel(r'$Number$')
+    plt.show()
+
+        
+    
