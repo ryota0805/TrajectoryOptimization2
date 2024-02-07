@@ -4,7 +4,7 @@ import env
 
 class Parameter:
     env_data = env.Env()
-    N = 50                                                     #系列データの長さ
+    N = 60                                                     #系列データの長さ
     M = 5                                                       #設計変数の種類の個数
     
     #初期状態と終端状態
@@ -14,16 +14,16 @@ class Parameter:
                 'terminal_y'    :True, 
                 'initial_theta' :True, 
                 'terminal_theta':True, 
-                'initial_phi'   :True, 
-                'terminal_phi'  :True,
-                'initial_v'     :True, 
-                'terminal_v'    :True}
+                'initial_phi'   :False, 
+                'terminal_phi'  :False,
+                'initial_v'     :False, 
+                'terminal_v'    :False}
     
     initial_x = 0                                             #x[m]
-    terminal_x = 30                                           #x[m]
+    terminal_x = 30                                         #x[m]
     
     initial_y = 0                                              #y[m]
-    terminal_y = 0                                              #y[m]
+    terminal_y = 5                                              #y[m]
 
     initial_theta = 0                                          #theta[rad]
     terminal_theta = 0                                          #theta[rad]
@@ -39,29 +39,18 @@ class Parameter:
     x_max = env_data.x_range[1]                                                  #x[m]
     y_min = env_data.y_range[0]                                                 #y[m]
     y_max = env_data.y_range[1]                                                  #y[m]
-    theta_min = -np.pi                                          #theta[rad]
-    theta_max = np.pi                                           #tehta[rad]
+    theta_min = -np.pi * 179/ 180                                         #theta[rad]
+    theta_max = np.pi *179/180                                          #tehta[rad]
     phi_min = -np.pi/6                                          #phi[rad]
-    phi_max = np.pi/6                                           #phi[rad]
-    v_min = 0                                                   #v[m/s]
+    phi_max = np.pi/6                                          #phi[rad]
+    v_min = -2                                                   #v[m/s]
     v_max = 2                                                   #v[m/s]
     
     WayPoint = np.array([[initial_x, initial_y],                #初期パス　[x, y] 
-                         [10, 5], 
-                         [20, -5], 
-                         [terminal_x, terminal_y]])     
+                        [10, 3],
+                        [20, 6],
+                        [terminal_x, terminal_y]])     
 
-    #変数の範囲
-    x_min = -3                                                  #x[m]
-    x_max = 33                                                  #x[m]
-    y_min = -10                                                 #y[m]
-    y_max = 10                                                  #y[m]
-    theta_min = -np.pi                                          #theta[rad]
-    theta_max = np.pi                                           #tehta[rad]
-    phi_min = -np.pi/4                                          #phi[rad]
-    phi_max = np.pi/4                                           #phi[rad]
-    v_min = 0                                                   #v[m/s]
-    v_max = 2                                                   #v[m/s]
 
 
     dt = 1                                                      #刻み幅[s]                                             
